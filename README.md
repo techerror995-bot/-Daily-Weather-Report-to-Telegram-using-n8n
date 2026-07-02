@@ -1,28 +1,42 @@
 # 🌤 Daily Weather Report to Telegram using n8n
 
-An automated **n8n workflow** that retrieves the latest weather information from the **Open-Meteo API** and delivers a daily weather report directly to a Telegram chat.
+An automated workflow built with **n8n** that retrieves the latest weather information from the **Open-Meteo API** and sends a formatted daily weather report directly to **Telegram**.
 
-This project is designed for beginners learning workflow automation with **n8n** while using **100% free services**—no paid APIs or subscriptions required.
-
----
-
-## 📌 Features
-
-* ⏰ Runs automatically every day using a Schedule Trigger
-* 🌤 Retrieves live weather data from the Open-Meteo API
-* 🌡 Displays temperature, humidity, wind speed, and weather conditions
-* 📩 Sends a formatted weather report to Telegram
-* 💸 No API key required
-* 🆓 Completely free to build and use
+This project demonstrates API integration, scheduled automation, data transformation, and Telegram bot notifications using only free services.
 
 ---
 
-## 🛠 Technologies Used
+## 📌 Overview
 
-* n8n
-* Open-Meteo API
-* Telegram Bot API
-* BotFather
+This workflow automatically performs the following tasks:
+
+- Runs every day at a scheduled time.
+- Retrieves the latest weather data from the Open-Meteo API.
+- Extracts the current weather information.
+- Converts weather codes into readable weather conditions.
+- Sends a formatted weather report to Telegram.
+
+---
+
+## 🚀 Features
+
+- ⏰ Daily scheduled execution
+- 🌤 Real-time weather updates
+- 🌡 Displays temperature, humidity, wind speed, and weather conditions
+- 📲 Telegram notification
+- 🌐 Free Open-Meteo API
+- 🔑 No API key required
+- 💯 Fully automated
+
+---
+
+## 🛠 Tech Stack
+
+- n8n
+- Open-Meteo API
+- HTTP Request
+- Code Node (JavaScript)
+- Telegram Bot API
 
 ---
 
@@ -46,58 +60,69 @@ Telegram
 
 ---
 
-## 📋 Prerequisites
-
-Before importing this workflow, ensure you have:
-
-* n8n installed (Cloud or Self-hosted)
-* A Telegram account
-* A Telegram Bot created with BotFather
-* Your Telegram Chat ID
-
-No paid services are required.
-
----
-
-## ⚙️ Workflow Overview
+## ⚙️ Workflow Explanation
 
 ### 1. Schedule Trigger
 
-Runs the workflow automatically every day at a specified time (e.g., 7:00 AM).
+Automatically runs the workflow every day at the configured time.
+
+---
 
 ### 2. HTTP Request
 
-Fetches the latest weather data from the Open-Meteo API.
+Retrieves the latest weather information from the Open-Meteo API.
 
-Example endpoint:
+**API Endpoint**
 
 ```
 https://api.open-meteo.com/v1/forecast
 ```
 
+**Method**
+
+```
+GET
+```
+
+**Authentication**
+
+```
+None
+```
+
+---
+
 ### 3. Edit Fields (Set)
 
-Extracts only the required weather values:
+Extracts only the required weather information from the API response, including:
 
-* Temperature
-* Humidity
-* Wind Speed
-* Weather Code
+- Temperature
+- Relative Humidity
+- Wind Speed
+- Weather Code
+
+---
 
 ### 4. Code
 
-Converts the weather code into a human-readable description such as:
+Converts the weather code into a human-readable weather condition.
 
-* ☀️ Clear Sky
-* 🌤 Mainly Clear
-* ⛅ Partly Cloudy
-* ☁️ Overcast
-* 🌧 Rain
-* ⛈ Thunderstorm
+Examples:
+
+- ☀️ Clear Sky
+- 🌤 Mainly Clear
+- ⛅ Partly Cloudy
+- ☁️ Overcast
+- 🌧 Rain
+- ⛈ Thunderstorm
+
+It also formats the final weather report before sending it to Telegram.
+
+---
 
 ### 5. Telegram
 
-Sends the formatted weather report to the specified Telegram chat.
+Sends the formatted weather report directly to your Telegram account.
 
 ---
 
@@ -111,52 +136,106 @@ Sends the formatted weather report to the specified Telegram chat.
 🌡 Temperature: 29°C
 💧 Humidity: 76%
 🌬 Wind Speed: 11 km/h
-☁ Weather: ⛅ Partly Cloudy
+☁️ Weather: ⛅ Partly Cloudy
 
 Have a wonderful day!
+
+🤖 Generated automatically with n8n.
 ```
 
 ---
 
-## 📚 Learning Objectives
+## 📁 Project Structure
 
-This project helps you learn:
-
-* Workflow automation
-* Schedule-based execution
-* REST API integration
-* HTTP Request node
-* JSON data processing
-* Expressions in n8n
-* Data transformation
-* Telegram automation
+```
+Daily-Weather-Report/
+│
+├── README.md
+├── workflow.json
+└── screenshots/
+    ├── workflow.png
+    ├── workflow-execution.png
+    └── telegram-output.png
+```
 
 ---
 
-## 🚀 Future Improvements
+## 📸 Screenshots
 
-Possible enhancements include:
+Include the following screenshots:
 
-* 7-day weather forecast
-* Rain alerts
-* Multiple locations
-* Weather charts
-* Google Sheets integration
-* Email notifications
-* Discord notifications
-* Daily weather logs
-* AI-generated weather summaries using a local LLM (e.g., Ollama)
+- Workflow Editor
+- Successful Workflow Execution
+- Telegram Output
+
+Example:
+
+```
+screenshots/
+    workflow.png
+    workflow-execution.png
+    telegram-output.png
+```
+
+---
+
+## 💡 Use Cases
+
+- Daily weather monitoring
+- Morning weather updates
+- Travel planning
+- Outdoor activity planning
+- Learning API integration with n8n
+- Portfolio automation project
+
+---
+
+## 🔮 Future Improvements
+
+- Support multiple locations
+- 7-day weather forecast
+- Rain and storm alerts
+- Save weather history to Google Sheets
+- Send weather reports via Email or Discord
+- Generate AI-powered weather summaries
+- Add weather charts and graphs
+
+---
+
+## 📚 What I Learned
+
+This project helped me gain hands-on experience with:
+
+- Workflow automation using n8n
+- REST API integration
+- HTTP Request node
+- JSON parsing
+- Data transformation
+- JavaScript Code node
+- Telegram Bot integration
+- Scheduled workflows
+
+---
+
+## 🏷 Skills Demonstrated
+
+- n8n
+- Workflow Automation
+- REST API
+- HTTP Request
+- JSON Parsing
+- JavaScript
+- Data Transformation
+- Telegram Bot API
+- Scheduled Automation
+- No-Code / Low-Code Development
 
 ---
 
 ## 📄 License
 
-This project is available under the MIT License.
+This project is licensed under the MIT License.
 
 ---
 
-## 🙌 Acknowledgements
-
-* Open-Meteo for providing a free weather API
-* The n8n team for the automation platform
-* Telegram for the Bot API
+⭐ If you found this project helpful, consider giving it a star!
