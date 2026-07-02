@@ -1,0 +1,183 @@
+{
+  "name": "Daily Weather Report to Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0c81c368-9c1a-4f04-83bc-4717801f4f7d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=10.3157&longitude=123.8854&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "0071d58b-a8af-46dc-ba1f-eb1c44055428",
+      "name": "Get Weather from Open-Meteo"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9deffd2c-b0f6-4ff0-a771-ce77b7324fd3",
+              "name": "temperature",
+              "value": "={{$json.current.temperature_2m}}",
+              "type": "string"
+            },
+            {
+              "id": "b524db8a-7241-44aa-94d1-009d395426d7",
+              "name": "humidity",
+              "value": "={{ $json.current.relative_humidity_2m }}",
+              "type": "number"
+            },
+            {
+              "id": "7317693f-3eee-4107-9d89-938b8a710906",
+              "name": "wind",
+              "value": "={{ $json.current.wind_speed_10m }}",
+              "type": "number"
+            },
+            {
+              "id": "ed4a9518-2d2a-4adf-9929-7e5061e1c02f",
+              "name": "weatherCode",
+              "value": "={{ $json.current.weather_code }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "44ea92fd-e794-4148-814e-e57b92debfb6",
+      "name": "Extract Needed Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "const map = {\n  0: \"☀️ Clear Sky\",\n  1: \"🌤 Mainly Clear\",\n  2: \"⛅ Partly Cloudy\",\n  3: \"☁️ Overcast\",\n  61: \"🌧 Rain\",\n  95: \"⛈ Thunderstorm\"\n};\n\nreturn [{\n  json: {\n    ...$json,\n    weather: map[$json.weatherCode] || \"Unknown\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "6dead6ff-4a7f-4653-a796-78a404f114fe",
+      "name": "Format Weather Message"
+    },
+    {
+      "parameters": {
+        "chatId": "5518864435",
+        "text": "=🌤 Daily Weather Report\n\n📍 Location: Cebu City\n\n🌡 Temperature: {{$json.temperature}}°C\n\n💧 Humidity: {{$json.humidity}}%\n\n🌬 Wind Speed: {{$json.wind}} km/h\n\n☁ Weather: {{$json.weather}}\n\nHave a productive day and stay safe!\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        832,
+        0
+      ],
+      "id": "badf6e39-8446-476e-b8d5-158c0e8c6580",
+      "name": "Send to Telegram",
+      "webhookId": "31cb1369-e2e5-40ba-a863-4d2c5a33cf89",
+      "credentials": {
+        "telegramApi": {
+          "id": "gDQsuB9yaIyUKcTH",
+          "name": "Daily Weather Report"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Weather from Open-Meteo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Weather from Open-Meteo": {
+      "main": [
+        [
+          {
+            "node": "Extract Needed Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Needed Data": {
+      "main": [
+        [
+          {
+            "node": "Format Weather Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Weather Message": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Manila",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "772dca6d-643d-4c4f-b8ae-f3ef5a552aa3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8109642ab6846a9cf1618de304921f5663481ec8cdaee6a52dd360d6de75a743"
+  },
+  "id": "7Lp0OpgpHvFELk4c",
+  "tags": []
+}
